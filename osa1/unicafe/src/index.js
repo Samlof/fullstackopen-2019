@@ -1,26 +1,58 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Button = props => {
+    const { text, handler } = props
+    return (
+        <button onClick={handler}>{text}</button>
+    )
+}
 const GiveFeedback = props => {
     const { setGood, setNeutral, setBad } = props
     return (
         < div >
             <h2>anna palautetta</h2>
-            <button onClick={setGood}>hyvä</button>
-            <button onClick={setNeutral}>neutraali</button>
-            <button onClick={setBad}>huono</button>
+            <Button handler={setGood} text="hyvä" />
+            <Button handler={setNeutral} text="neutraali" />
+            <Button handler={setBad} text="huono" />
         </div >
     )
 }
 
+const Statistic = props => {
+    const { text, value } = props
+
+    return (
+        <tr>
+            <td>{text}</td>
+            <td>{value}</td>
+        </tr>
+    )
+}
 const Statistics = props => {
     const { good, neutral, bad } = props
+    const total = good + neutral + bad
+    if (total === 0) {
+        return (
+            <div>
+                <h2>statistiikka</h2>
+                <p>Ei yhtään palautetta annettu</p>
+            </div>
+        )
+    }
     return (
         <div>
             <h2>statistiikka</h2>
-            <p>hyvä {good}</p>
-            <p>neutraali {neutral}</p>
-            <p>huono {bad}</p>
+            <table>
+                <tbody>
+                    <Statistic text="hyvä" value={good} />
+                    <Statistic text="neutraali" value={neutral} />
+                    <Statistic text="huono" value={bad} />
+                    <Statistic text="yhteensä" value={total} />
+                    <Statistic text="keskiarvo" value={(good - bad) / total} />
+                    <Statistic text="positiivisia" value={(good / total) * 100 + " %"} />
+                </tbody>
+            </table>
         </div>
     )
 }
