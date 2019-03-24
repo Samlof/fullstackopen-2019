@@ -1,30 +1,36 @@
 import React from 'react'
 
 const Content = props => {
-    const { persons } = props
+    const { persons, deletePerson } = props
 
     return (
         <div>
             {persons.map(p => (
-                <Part key={p.name} name={p.name} number={p.number} />
+                <Part deletePerson={deletePerson} key={p.name} person={p} />
             ))}
         </div>
     )
 }
 const Part = props => {
-    const { name, number } = props
+    const { person, deletePerson } = props
 
+    const confirmBox = () => {
+        if (window.confirm(`Poistetaanko ${person.name}?`)) {
+            deletePerson(person.id)
+        }
+    }
     return (
         <div>
-            {name} {number}
+            {person.name} {person.number}
+            <button onClick={confirmBox}>Poista</button>
         </div>
     )
 }
 const Persons = props => {
-    const { persons } = props
+    const { persons, deletePerson } = props
     return (
         <div>
-            <Content persons={persons} />
+            <Content deletePerson={deletePerson} persons={persons} />
         </div>
     )
 }
