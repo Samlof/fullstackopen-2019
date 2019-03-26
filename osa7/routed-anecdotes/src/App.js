@@ -60,7 +60,7 @@ const Footer = () => (
   </div>
 )
 
-const CreateNew = (props) => {
+const CreateNewWithRouter = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -100,6 +100,8 @@ const CreateNew = (props) => {
   )
 
 }
+
+const CreateNew = withRouter(CreateNewWithRouter)
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -151,9 +153,10 @@ const App = () => {
       <Router>
         <div>
           <Menu />
+          <div>{notification}</div>
           <Route exact path="/" render={() => <AnecdoteList anecdotes={anecdotes} />} />
           <Route exact path="/anecdotes/:id" render={({ match }) => <Anecdote anecdote={anecdoteById(match.params.id)} />} />
-          <Route exact path="/create" render={({ history }) => <CreateNew addNew={addNew} history={history} />} />
+          <Route exact path="/create" render={() => <CreateNew addNew={addNew} />} />
           <Route exact path="/about" render={() => <About />} />
         </div>
       </Router>
